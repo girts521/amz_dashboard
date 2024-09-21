@@ -4,7 +4,7 @@ import pandas as pd
 
 import sqlite3
 
-conn = sqlite3.connect("/home/girts/Documents/scraping/amazon/products.db", check_same_thread=False)
+conn = sqlite3.connect("./products.db", check_same_thread=False)
 c = conn.cursor()
 
 app = Flask(__name__)
