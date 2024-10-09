@@ -52,5 +52,26 @@ def get_sentiment():
         conn.close()
         return sentiment_array, 201
 
+@app.route("/data/get_related_products", methods=["GET"])
+def get_related_products():
+    if request.method == "GET":
+        conn = sqlite3.connect("./products.db", check_same_thread=False)
+        c = conn.cursor()
+
+        product_id = request.args.get('id')
+        print("id: ", product_id)
+        query = f"""
+        SELECT related_products FROM products 
+        WHERE id={product_id};
+        """
+        c.execute(query)
+        related_products = c.fetchone()[0]
+        # data = df.to_dict(orient="records")
+        related_products = json.loads(related_products)
+        print("related products: ", related_products)
+        conn.close()
+        return related_products, 201
+     
+
 if __name__ == "__main__":
     app.run(debug=True)
