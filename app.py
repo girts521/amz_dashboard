@@ -69,8 +69,33 @@ def get_related_products():
         # data = df.to_dict(orient="records")
         related_products = json.loads(related_products)
         print("related products: ", related_products)
+        for product in related_products:
+            query2 = f"""
+            SELECT 
+            """
         conn.close()
         return related_products, 201
+@app.route("/data/get_product_info", methods=["GET"])
+def get_product_info():
+    if request.method == "GET":
+        conn = sqlite3.connect("./products.db", check_same_thread=False)
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+
+        product_id = request.args.get('id')
+        print("id: ", product_id)
+        query = f"""
+        SELECT title, current_price, discount, image, date_last_update, brand, search_term, rating, review_count, sentiment FROM products 
+        WHERE id={product_id};
+        """
+        c.execute(query)
+        product = c.fetchone()
+        print("product befor: ", product)
+        product = dict(product)
+        print("product: ", product)
+        conn.close()
+        return product, 201
+    
      
 
 if __name__ == "__main__":
