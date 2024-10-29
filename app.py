@@ -85,7 +85,7 @@ def get_product_info():
         product_id = request.args.get('id')
         print("id: ", product_id)
         query = f"""
-        SELECT title, current_price, discount, image, date_last_update, brand, search_term, rating, review_count, sentiment FROM products 
+        SELECT title, current_price, discount, image, date_last_update, brand, search_term, rating, review_count, sentiment, product_link FROM products 
         WHERE id={product_id};
         """
         c.execute(query)
